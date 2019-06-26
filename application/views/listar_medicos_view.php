@@ -102,10 +102,9 @@ $this->load->view('commons/imports_cabecalho');
                 { "data": "crm" },                  
                 {
                  "data": null, 
-                 "width": "25%",                
+                 "width": "18%",                
                  "render": function ( data, type, row, meta ) {         
-                   		return "<div class='row'><div class='col-md-12'>"+
-						" <a class='btn btn-success btn-xs' href='<?php echo base_url('medico/?id=')?>"+ data.id +"'> <i class='fas fa-glasses'></i>Detalhar</a>"+
+                   		return "<div class='row'><div class='col-md-12'>"+						
                    		" <a class='btn btn-warning btn-xs' href='<?php echo base_url('medico/editar?id=')?>"+ data.id +"'> <i class='far fa-edit'></i>Editar</a>"+
                    		" <a class='btn btn-danger  btn-xs' onclick='return confirm("+'"Tem certeza que deseja deletar este registro?"'+");'  href='<?php echo base_url('medico/deletar?id=')?>"+ data.id +"'> <i class='far fa-trash-alt'></i>Deletar</a>"+
                    		"</div></div>";

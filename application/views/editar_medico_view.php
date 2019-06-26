@@ -15,6 +15,80 @@
 <link rel="stylesheet"
 	href="<?php echo base_url('includes/admin/css/font-awesome.css') ?>" />
 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+<script>
+
+function limpa_formulario_cep() {
+	//Limpa valores do formulário de cep.
+	//document.getElementById('logradouro').value=("");
+	//document.getElementById('bairro').value=("");
+	document.getElementById('cidade').value=("");
+	document.getElementById('estado').value=("");
+}
+
+function meu_callback(conteudo) {
+    if (!("erro" in conteudo)) {
+    	//Atualiza os campos com os valores.
+    	//document.getElementById('logradouro').value=(conteudo.logradouro);
+    	//document.getElementById('bairro').value=(conteudo.bairro);
+    	document.getElementById('cidade').value=(conteudo.localidade);
+    	document.getElementById('estado').value=(conteudo.uf);
+    } //end if.
+    else {
+    	//CEP não Encontrado.
+    	limpa_formulario_cep();
+    	alert("CEP não encontrado.");
+    }
+}
+
+function pesquisacep(valor) {
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+        
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+        
+        	//Expressão regular para validar o CEP.
+        	var validacep = /^[0-9]{8}$/;
+        
+        	//Valida o formato do CEP.
+        	if(validacep.test(cep)) {
+        
+        		//Preenche os campos com "..." enquanto consulta webservice.
+        		//document.getElementById('logradouro').value="...";
+        		//document.getElementById('bairro').value="...";
+        		document.getElementById('cidade').value="...";
+        		document.getElementById('estado').value="...";										
+        		//Cria um elemento javascript.
+        		var script = document.createElement('script');
+        
+        		//Sincroniza com o callback.
+        		script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+        		
+        		//Insere script no documento e carrega o conteúdo.
+        		document.body.appendChild(script);
+        
+        	} //end if.
+        	else {
+        		//cep é inválido.
+        		limpa_formulario_cep();
+        		alert("Formato de CEP inválido.");
+        	}
+        } //end if.
+        else {
+        	//cep sem valor, limpa formulário.
+        	limpa_formulario_cep();
+        }
+    };
+    
+    jQuery(document).ready(function($) {   			  			   
+        $("#telefone").mask("(99) 99999-9999");
+        $("#cep").mask("99999-999");	
+    });
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -28,36 +102,42 @@
 						<div class="form-group">
 							<?php $this->load->view('commons/msg_validacao'); ?>	
 							<div class="row">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-12">
 									<input type="hidden" name="id" id="id"
 										value=<?php echo (isset($medico->id) and ! empty($medico->id)) ? $medico->id : set_value('id')?>>
 
 									<label for="nome">Nome:</label> <input class="form-control"
 										type="text" id="nome" name="nome"
-										value=<?php echo (isset($medico->nome) and ! empty($medico->nome)) ? $medico->nome : set_value('nome')?>>
+										value="<?php echo (isset($medico->nome) and ! empty($medico->nome)) ? $medico->nome : set_value('nome')?>">
 
 									<label for="nome">CRM:</label> <input class="form-control"
 										type="text" id="crm" name="crm"
-										value=<?php echo (isset($medico->crm) and ! empty($medico->crm)) ? $medico->crm : set_value('crm')?>>
+										value="<?php echo (isset($medico->crm) and ! empty($medico->crm)) ? $medico->crm : set_value('crm')?>">
 
 									<label for="nome">Telefone:</label> <input class="form-control"
 										type="text" id="telefone" name="telefone"
-										value=<?php echo (isset($medico->telefone) and ! empty($medico->telefone)) ? $medico->telefone : set_value('telefone')?>>
+										value="<?php echo (isset($medico->telefone) and ! empty($medico->telefone)) ? $medico->telefone : set_value('telefone');?>">
 
-
-									<label for="nome">Cidade:</label> <input class="form-control"
+									<label>Cep</label> <input class="form-control" name="cep"
+										type="text" id="cep" size="10"
+										value="<?php echo (isset($medico->cep) and ! empty($medico->cep)) ? $medico->cep : set_value('cep')?>"
+										maxlength="9" onblur="pesquisacep(this.value);" /> 
+										
+									<label
+										for="nome">Cidade:</label> <input class="form-control"
 										type="text" id="cidade" name="cidade"
-										value=<?php echo (isset($medico->cidade) and ! empty($medico->cidade)) ? $medico->cidade : set_value('cidade')?>>
+										value="<?php echo (isset($medico->cidade) and ! empty($medico->cidade)) ? $medico->cidade : set_value('cidade')?>">
 
 									<label for="nome">Estado:</label> <input class="form-control"
 										type="text" id="estado" name="estado"
-										value=<?php echo (isset($medico->estado) and ! empty($medico->estado)) ? $medico->estado : set_value('estado')?>>
+										value="<?php echo (isset($medico->estado) and ! empty($medico->estado)) ? $medico->estado : set_value('estado')?>">
 
 									<br>
 									<button type="submit" class="btn btn-primary">Salvar e Voltar
 										para a Lista</button>
 
-									<a href="<?php echo base_url('medico')?>" class="btn btn-default">Cancelar</a>
+									<a href="<?php echo base_url('medico')?>"
+										class="btn btn-default">Cancelar</a>
 								</div>
 							</div>
 						</div>

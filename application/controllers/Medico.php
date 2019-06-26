@@ -31,7 +31,7 @@ class Medico extends CI_Controller
         $this->form_validation->set_rules('crm', 'crm', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('telefone', 'telefone', 'trim|required');
         $this->form_validation->set_rules('cidade', 'cidade', 'trim|required|min_length[3]');
-        $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[3]');
+        $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[2]');
         
         if ($this->form_validation->run() == FALSE) {
             $dados['erros'] = validation_errors('<li>', '</li>');
@@ -42,19 +42,20 @@ class Medico extends CI_Controller
                 'nome' => $this->input->post('nome'),
                 'crm' => $this->input->post('crm'),
                 'telefone' => $this->input->post('telefone'),
+                'cep' => $this->input->post('cep'),
                 'cidade' => $this->input->post('cidade'),
                 'estado' => $this->input->post('estado')
             );
             
             $controle = $this->medico_model->salvar($dados);
             
-            //if ($controle) {
-                $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
+            // if ($controle) {
+            $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                             Seus dados foram <strong>armazenados</strong> com sucesso no banco de dados.
                                           </div>');
-                redirect('medico', 'refresh');
-           // } else {}
+            redirect('medico', 'refresh');
+            // } else {}
         }
     }
 
@@ -74,7 +75,7 @@ class Medico extends CI_Controller
         $this->form_validation->set_rules('crm', 'crm', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('telefone', 'telefone', 'trim|required');
         $this->form_validation->set_rules('cidade', 'cidade', 'trim|required|min_length[3]');
-        $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[3]');
+        $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[2]');
         
         if ($this->form_validation->run() == FALSE) {
             $dados['erros'] = validation_errors('<li>', '</li>');
@@ -85,6 +86,7 @@ class Medico extends CI_Controller
                 'nome' => $this->input->post('nome'),
                 'crm' => $this->input->post('crm'),
                 'telefone' => $this->input->post('telefone'),
+                'cep' => $this->input->post('cep'),
                 'cidade' => $this->input->post('cidade'),
                 'estado' => $this->input->post('estado')
             );
