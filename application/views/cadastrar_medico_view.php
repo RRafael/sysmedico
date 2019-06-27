@@ -95,7 +95,33 @@ function pesquisacep(valor) {
         var wrapper = $('.field_especialidades'); //Input field wrapper
 
         $(addButton).click(function(){
-                $(wrapper).append('<div><input class="form-control-inline" style="width: 60%;" type="text" name="especialidade_id[]" value=""/><a href="javascript:void(0);" class="btn btn-primary remove_button">Remover</a></div><br>'); //Add field html      
+        	  $.ajax({
+        	        type: "GET", 
+        	        url: "<?php echo base_url('/especialidade/listar/'); ?>",
+        	        timeout: 3000,
+        	        datatype: 'JSON',
+        	        contentType: "application/json; charset=utf-8",
+        	        cache: false,
+        	        beforeSend: function() {
+        	            $("h2").html("Carregando..."); //Carregando
+        	        },
+        	        error: function() {
+        	            $("h2").html("O servidor não conseguiu processar o pedido");
+        	        },
+        	        success: function(retorno) {
+        	                // Interpretando retorno JSON...
+        	                var especialidades = JSON.parse(retorno);
+        	                // Listando cada cliente encontrado na lista...
+        	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidade_id[]" >';
+        	                $.each(especialidades,function(i, especialidade){
+        	                	
+        	                	item = item + '<option value='+especialidade.id+' >'+especialidade.nome+'</option>';
+            	             
+        	                });
+        	                item = item + '</select><a href="javascript:void(0);" class="btn btn-primary remove_button">Remover</a></div><br>';
+        	                $(wrapper).append(item); 
+        	        } 
+        	    });
         });
 
         $(wrapper).on('click', '.remove_button', function(e){
@@ -103,7 +129,8 @@ function pesquisacep(valor) {
             $(this).parent('div').remove(); //Remove field html
         });
     });
-    
+
+	
 </script>
 <body>
 	<div id="wrapper">
@@ -138,6 +165,7 @@ function pesquisacep(valor) {
 									<a href="javascript:void(0);" id='add_button'
 										class="btn btn-primary">Adicionar Especialidade </a>
 								</div>
+								<br>
 							</div>
 
 							<br>

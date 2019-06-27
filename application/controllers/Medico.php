@@ -44,9 +44,10 @@ class Medico extends CI_Controller
                 'telefone' => $this->input->post('telefone'),
                 'cep' => $this->input->post('cep'),
                 'cidade' => $this->input->post('cidade'),
-                'estado' => $this->input->post('estado')
+                'estado' => $this->input->post('estado'),
+                'especialidades' => $this->input->post('especialidade_id')
             );
-            
+       
             $controle = $this->medico_model->salvar($dados);
             
             // if ($controle) {
