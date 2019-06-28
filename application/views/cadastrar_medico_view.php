@@ -92,7 +92,7 @@ function pesquisacep(valor) {
 
     $(document).ready(function(){
         var addButton = $('#add_button'); //Add button selector
-        var wrapper = $('.field_especialidades'); //Input field wrapper
+        var wrapper = $('#field_especialidades'); //Input field wrapper
 
         $(addButton).click(function(){
         	  $.ajax({
@@ -109,16 +109,14 @@ function pesquisacep(valor) {
         	            $("h2").html("O servidor não conseguiu processar o pedido");
         	        },
         	        success: function(retorno) {
-        	                // Interpretando retorno JSON...
         	                var especialidades = JSON.parse(retorno);
-        	                // Listando cada cliente encontrado na lista...
-        	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidade_id[]" >';
+        	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidades[]" >';
         	                $.each(especialidades,function(i, especialidade){
         	                	
         	                	item = item + '<option value='+especialidade.id+' >'+especialidade.nome+'</option>';
             	             
         	                });
-        	                item = item + '</select><a href="javascript:void(0);" class="btn btn-primary remove_button">Remover</a></div><br>';
+        	                item = item + '</select><a href="javascript:void(0);" class="btn btn-primary remove_button">Remover</a></div>';
         	                $(wrapper).append(item); 
         	        } 
         	    });
@@ -160,15 +158,13 @@ function pesquisacep(valor) {
 							<input class="form-control" type="text" id="estado" name="estado"
 								value=<?php echo set_value('estado')?>> <br>
 
-							<div class="field_especialidades">
+							<div id="field_especialidades">
 								<div>
 									<a href="javascript:void(0);" id='add_button'
 										class="btn btn-primary">Adicionar Especialidade </a>
 								</div>
-								<br>
 							</div>
 
-							<br>
 							<button type="submit" class="btn btn-primary">Salvar</button>
 						</div>
 

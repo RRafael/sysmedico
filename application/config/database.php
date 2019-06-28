@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> 'mysql:host=127.0.0.1;dbname=sv',
     'hostname' => '127.0.0.1',
 	'username' => 'root',
-    'password' => '123',
+    'password' => '',
 	'database' => 'sv',
 	'dbdriver' => 'pdo', //mysqli
 	'dbprefix' => '',

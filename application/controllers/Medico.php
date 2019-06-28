@@ -37,19 +37,17 @@ class Medico extends CI_Controller
             $dados['erros'] = validation_errors('<li>', '</li>');
             $this->load->view('cadastrar_medico_view', $dados);
         } else {
-            
-            $dados = array(
+            $dados['medico'] = array(
                 'nome' => $this->input->post('nome'),
                 'crm' => $this->input->post('crm'),
                 'telefone' => $this->input->post('telefone'),
                 'cep' => $this->input->post('cep'),
                 'cidade' => $this->input->post('cidade'),
-                'estado' => $this->input->post('estado'),
-                'especialidades' => $this->input->post('especialidade_id')
+                'estado' => $this->input->post('estado')
             );
-       
-            $controle = $this->medico_model->salvar($dados);
             
+            $dados['especialidades'] = $this->input->post('especialidades');
+            $controle = $this->medico_model->salvar($dados);
             // if ($controle) {
             $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
