@@ -17,24 +17,13 @@ class Medico_model extends CI_Model
         $this->db->insert('medico', $dados['medico']);
         $medico_id = $this->db->insert_id();
         
-        $especialidades = array();
-        foreach ($dados['especialidades'] as $value) {
-            array_push($especialidades, array(
+        $count = count($dados['especialidades']);
+        for ($i = 0; $i < $count; $i ++) {
+            $this->db->insert('especialidade_medico', array(
                 'medico_id' => $medico_id,
-                'especialidade_id' => $value
-            ));
+                'especialidade_id' => $dados['especialidades'][$i]
+            ));            
         }
-        
-        $esp = array();
-        foreach ($especialidades as $value) {
-            $esp = array_push(
-                $value
-            );
-        }
-        
-         pd($esp);
-        $this->db->set((object) $especialidades);
-        $this->db->insert('especialidade_medico');
         
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();

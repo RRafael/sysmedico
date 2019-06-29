@@ -47,6 +47,7 @@ class Medico extends CI_Controller
             );
             
             $dados['especialidades'] = $this->input->post('especialidades');
+            
             $controle = $this->medico_model->salvar($dados);
             // if ($controle) {
             $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
