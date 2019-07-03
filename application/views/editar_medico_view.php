@@ -88,6 +88,50 @@ function pesquisacep(valor) {
         $("#telefone").mask("(99) 99999-9999");
         $("#cep").mask("99999-999");	
     });
+
+	function carrega_especialidades(){
+		 $.ajax({
+ 	        type: "GET", 
+ 	        url: "<?php echo base_url('/especialidade/listar/'); ?>",
+ 	        timeout: 3000,
+ 	        datatype: 'JSON',
+ 	        contentType: "application/json; charset=utf-8",
+ 	        cache: false,
+ 	        beforeSend: function() {
+ 	            $("h2").html("Carregando..."); //Carregando
+ 	        },
+ 	        error: function() {
+ 	            $("h2").html("O servidor não conseguiu processar o pedido");
+ 	        },
+ 	        success: function(retorno) {
+ 	                var especialidades = JSON.parse(retorno);
+ 	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidades[]" >';
+ 	                $.each(especialidades,function(i, especialidade){
+ 	                	
+ 	                	item = item + '<option value='+especialidade.id+' >'+especialidade.nome+'</option>';
+     	             
+ 	                });
+ 	                item = item + '</select><a href="javascript:void(0);" class="btn btn-primary remove_button">Remover</a></div>';
+ 	                $('#field_especialidades').append(item); 
+ 	        } 
+ 	    });
+	}
+    
+    $(document).ready(function(){
+        var addButton = $('#add_button'); //Add button selector
+        var wrapper = $('#field_especialidades'); //Input field wrapper
+
+        $(addButton).click(function(){
+        	carrega_especialidades();
+        });
+
+        $(wrapper).on('click', '.remove_button', function(e){
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+        });
+    });
+
+	
 </script>
 </head>
 <body>
@@ -121,9 +165,7 @@ function pesquisacep(valor) {
 									<label>Cep</label> <input class="form-control" name="cep"
 										type="text" id="cep" size="10"
 										value="<?php echo (isset($medico->cep) and ! empty($medico->cep)) ? $medico->cep : set_value('cep')?>"
-										maxlength="9" onblur="pesquisacep(this.value);" /> 
-										
-									<label
+										maxlength="9" onblur="pesquisacep(this.value);" /> <label
 										for="nome">Cidade:</label> <input class="form-control"
 										type="text" id="cidade" name="cidade"
 										value="<?php echo (isset($medico->cidade) and ! empty($medico->cidade)) ? $medico->cidade : set_value('cidade')?>">
@@ -132,7 +174,13 @@ function pesquisacep(valor) {
 										type="text" id="estado" name="estado"
 										value="<?php echo (isset($medico->estado) and ! empty($medico->estado)) ? $medico->estado : set_value('estado')?>">
 
-									<br>
+									<div id="field_especialidades">
+										<div>
+											<a href="javascript:void(0);" id='add_button'
+												class="btn btn-primary">Adicionar Especialidade </a>
+										</div>
+										
+									</div>
 									<button type="submit" class="btn btn-primary">Salvar e Voltar
 										para a Lista</button>
 
@@ -140,9 +188,7 @@ function pesquisacep(valor) {
 										class="btn btn-default">Cancelar</a>
 								</div>
 							</div>
-						</div>
-
-
+					
 					</form>
 				</div>
 			</div>

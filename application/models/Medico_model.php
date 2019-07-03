@@ -22,7 +22,7 @@ class Medico_model extends CI_Model
             $this->db->insert('especialidade_medico', array(
                 'medico_id' => $medico_id,
                 'especialidade_id' => $dados['especialidades'][$i]
-            ));            
+            ));
         }
         
         if ($this->db->trans_status() === FALSE) {
@@ -34,10 +34,15 @@ class Medico_model extends CI_Model
 
     public function buscar($id)
     {
-        $query = $this->db->select('*')
-            ->from('medico')
-            ->where('id', $id)
-            ->get();
+        $query = $this->db->query('SELECT m.id, m.nome, m.crm, m.telefone, m.cep, m.cidade, m.estado, 
+                e.id AS especialidade_id, e.nome 
+                FROM medico m
+                JOIN especialidade_medico em ON em.medico_id = m.id
+                JOIN especialidade e ON e.id = em.especialidade_id
+                WHERE m.id = ?', array(
+            $id
+        ));
+        
         return $query->row();
     }
 
