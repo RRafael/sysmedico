@@ -217,7 +217,7 @@ if (isset($especialidade_medico) and ! empty($especialidade_medico)) {
             ?>
     
 												<option
-													<?php echo set_select('especialidades[]',  $especialidade->id); ?>
+													<?php echo ($row == $especialidade->id) ? 'selected' : '' ?>
 													value="<?php echo $especialidade->id;?>"><?php echo $especialidade->nome;?>
 					
 				</option>

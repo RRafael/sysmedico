@@ -79,7 +79,7 @@ class Medico extends CI_Controller
         $this->form_validation->set_rules('telefone', 'telefone', 'trim|required');
         $this->form_validation->set_rules('cidade', 'cidade', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[2]');
-        $this->form_validation->set_rules('especialidades', 'Especialidade', 'trim|required|integer');
+        $this->form_validation->set_rules('especialidades[]', 'Especialidade', 'trim|required|integer');
         
         if ($this->form_validation->run() == FALSE) {
             $dados['lista_especialidades'] = $this->especialidade_model->listar();
