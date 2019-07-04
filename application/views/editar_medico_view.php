@@ -179,7 +179,61 @@ function pesquisacep(valor) {
 											<a href="javascript:void(0);" id='add_button'
 												class="btn btn-primary">Adicionar Especialidade </a>
 										</div>
-										
+						
+<?php
+if (isset($especialidade_medico) and ! empty($especialidade_medico)) {
+    foreach ($especialidade_medico as $row) {
+        ?>
+  <div>
+											<select class="form-control-inline" style="width: 60%;"
+												type="text" name="especialidades[]">
+<?php
+        foreach ($lista_especialidades as $especialidade) {
+            ?>
+       
+												<option
+													<?php echo ($row->id == $especialidade->id) ? 'selected' : '' ?>
+													value="<?php echo $especialidade->id;?>">
+		<?php echo $especialidade->nome;?>
+		
+		
+		</option>
+																			<?php
+        }
+        ?>
+    </select><a href="javascript:void(0);"
+												class="btn btn-primary remove_button">Remover</a>
+										</div>
+<?php
+    }
+} else {
+    foreach ($especialidades as $row) {
+        ?>
+    <div>
+											<select class="form-control-inline" style="width: 60%;"
+												type="text" name="especialidades[]">
+    <?php
+        foreach ($lista_especialidades as $especialidade) {
+            ?>
+    
+												<option
+													<?php echo set_select('especialidades[]',  $especialidade->id); ?>
+													value="<?php echo $especialidade->id;?>"><?php echo $especialidade->nome;?>
+					
+				</option>
+
+											
+<?php
+        }
+        ?>
+    </select><a href="javascript:void(0);"
+												class="btn btn-primary remove_button">Remover</a>
+										</div>
+										<?php
+    }
+}
+?>
+
 									</div>
 									<button type="submit" class="btn btn-primary">Salvar e Voltar
 										para a Lista</button>
