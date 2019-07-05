@@ -110,7 +110,8 @@ function pesquisacep(valor) {
         	        },
         	        success: function(retorno) {
         	                var especialidades = JSON.parse(retorno);
-        	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidades[]" >';
+        	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidades[]" ><option value="">--Selecione--</option>';        	           
+        	                
         	                $.each(especialidades,function(i, especialidade){
         	                	
         	                	item = item + '<option value='+especialidade.id+' >'+especialidade.nome+'</option>';
@@ -163,6 +164,37 @@ function pesquisacep(valor) {
 									<a href="javascript:void(0);" id='add_button'
 										class="btn btn-primary">Adicionar Especialidade </a>
 								</div>
+<?php
+
+if (isset($especialidades) and ! empty($especialidades)) {    
+    foreach ($especialidades as $row) {
+        ?>
+								<div>
+									<select class="form-control-inline" style="width: 60%;"
+										type="text" name="especialidades[]">
+
+										<option value="">--Selecione--</option>
+    <?php
+        foreach ($lista_especialidades as $especialidade) {
+            ?>
+    
+												<option
+											<?php echo ($row == $especialidade->id) ? 'selected' : '' ?>
+											value="<?php echo $especialidade->id;?>"><?php echo $especialidade->nome;?>
+					
+				</option>
+
+											
+<?php
+        }
+        ?>
+        </select><a href="javascript:void(0);"
+										class="btn btn-primary remove_button">Remover</a>
+								</div>
+								<?php
+    }
+}
+?>
 							</div>
 
 							<button type="submit" class="btn btn-primary">Salvar</button>

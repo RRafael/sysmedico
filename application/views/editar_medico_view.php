@@ -105,7 +105,7 @@ function pesquisacep(valor) {
  	        },
  	        success: function(retorno) {
  	                var especialidades = JSON.parse(retorno);
- 	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidades[]" >';
+ 	                var item = '<div><select class="form-control-inline" style="width: 60%;" type="text" name="especialidades[]" ><option value="">--Selecione--</option>';
  	                $.each(especialidades,function(i, especialidade){
  	                	
  	                	item = item + '<option value='+especialidade.id+' >'+especialidade.nome+'</option>';
@@ -187,6 +187,7 @@ if (isset($especialidade_medico) and ! empty($especialidade_medico)) {
   <div>
 											<select class="form-control-inline" style="width: 60%;"
 												type="text" name="especialidades[]">
+												<option value="">--Selecione--</option>
 <?php
         foreach ($lista_especialidades as $especialidade) {
             ?>
@@ -211,7 +212,7 @@ if (isset($especialidade_medico) and ! empty($especialidade_medico)) {
         ?>
     <div>
 											<select class="form-control-inline" style="width: 60%;"
-												type="text" name="especialidades[]">
+												type="text" name="especialidades[]"><option value="">--Selecione--</option>
     <?php
         foreach ($lista_especialidades as $especialidade) {
             ?>

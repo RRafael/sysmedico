@@ -33,9 +33,12 @@ class Medico extends CI_Controller
         $this->form_validation->set_rules('telefone', 'telefone', 'trim|required');
         $this->form_validation->set_rules('cidade', 'cidade', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[2]');
+        $this->form_validation->set_rules('especialidades[]', 'Especialidade', 'trim|required|integer');
         
         if ($this->form_validation->run() == FALSE) {
             $dados['erros'] = validation_errors('<li>', '</li>');
+            $dados['lista_especialidades'] = $this->especialidade_model->listar();
+            $dados['especialidades'] = $this->input->post('especialidades');
             $this->load->view('cadastrar_medico_view', $dados);
         } else {
             $dados['medico'] = array(
@@ -64,7 +67,7 @@ class Medico extends CI_Controller
     {
         $dados['menu_ativo'] = null;
         $dados['medico'] = $this->medico_model->buscar($this->input->get('id'));
-        $dados['especialidade_medico'] = $this->especialidade_model->buscarPorIdMedico($this->input->get('id'));
+        $dados['especialidade_medico'] = $this->medico_model->buscarEspecialidades($this->input->get('id'));
         $dados['lista_especialidades'] = $this->especialidade_model->listar();
         $this->load->view('editar_medico_view', $dados);
     }

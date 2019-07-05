@@ -15,16 +15,10 @@ class Medico_model extends CI_Model
         $this->db->trans_begin();
         
         $this->db->insert('medico', $dados['medico']);
-        $medico_id = $this->db->insert_id();
+        $idMedico = $this->db->insert_id();
         
-        $count = count($dados['especialidades']);
-        for ($i = 0; $i < $count; $i ++) {
-            $this->db->insert('especialidade_medico', array(
-                'medico_id' => $medico_id,
-                'especialidade_id' => $dados['especialidades'][$i]
-            ));
-        }
-        
+        $this->salvarEspecialidades($idMedico, $dados['especialidades']);
+
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {
@@ -57,5 +51,26 @@ class Medico_model extends CI_Model
         $this->db->where('id', $dados['id']);
         $this->db->update('medico', $dados);
         return $this->db->affected_rows();
+    }
+
+    public function buscarEspecialidades($idMedico)
+    {
+        $this->db->select('especialidade.id, especialidade.nome');
+        $this->db->from('especialidade');
+        $this->db->join('especialidade_medico', 'especialidade_medico.especialidade_id = especialidade.id');
+        $this->db->where('especialidade_medico.medico_id', $idMedico);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function salvarEspecialidades($idMedico, $especialidades)
+    {
+        $count = count($especialidades);
+        for ($i = 0; $i < $count; $i ++) {
+            $this->db->insert('especialidade_medico', array(
+                'medico_id' => $idMedico,
+                'especialidade_id' => $especialidades[$i]
+            ));
+        }
     }
 }
