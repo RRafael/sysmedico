@@ -90,7 +90,7 @@ class Medico extends CI_Controller
             $dados['especialidades'] = $this->input->post('especialidades');
             $this->load->view('editar_medico_view', $dados);
         } else {
-            $dados = array(
+            $dados['medico'] = array(
                 'id' => $this->input->post('id'),
                 'nome' => $this->input->post('nome'),
                 'crm' => $this->input->post('crm'),
@@ -99,6 +99,8 @@ class Medico extends CI_Controller
                 'cidade' => $this->input->post('cidade'),
                 'estado' => $this->input->post('estado')
             );
+            
+            $dados['especialidades'] = $this->input->post('especialidades');
             
             $controle = $this->medico_model->atualizar($dados);
             // echo $controle;
