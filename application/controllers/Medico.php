@@ -53,13 +53,15 @@ class Medico extends CI_Controller
             $dados['especialidades'] = $this->input->post('especialidades');
             
             $controle = $this->medico_model->salvar($dados);
-            // if ($controle) {
-            $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
+            if ($controle) {
+                $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                             Seus dados foram <strong>armazenados</strong> com sucesso no banco de dados.
                                           </div>');
-            redirect('medico', 'refresh');
-            // } else {}
+                redirect('medico', 'refresh');
+            } else {
+                echo 'error';
+            }
         }
     }
 
@@ -103,14 +105,16 @@ class Medico extends CI_Controller
             $dados['especialidades'] = $this->input->post('especialidades');
             
             $controle = $this->medico_model->atualizar($dados);
-            // echo $controle;
-            // if ($controle > 0) {
-            $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
+            
+            if ($controle > 0) {
+                $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                              Seus dados foram <strong>atualizados</strong> com sucesso no banco de dados.
                                           </div>');
-            redirect('medico', 'refresh');
-            // } else {}
+                redirect('medico', 'refresh');
+            } else {
+                echo 'error';
+            }
         }
     }
 
@@ -119,14 +123,13 @@ class Medico extends CI_Controller
         $dados['menu_ativo'] = 'medicos';
         $controle = $this->medico_model->deletar($this->input->get('id'));
         if ($controle) {
-            // deletado com sucesso
             $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                              Seus dados foram <strong>removido</strong> com sucesso no banco de dados.
                                           </div>');
             redirect('medico', 'refresh');
         } else {
-            // ouve um erro
+            echo 'error';
         }
     }
 }

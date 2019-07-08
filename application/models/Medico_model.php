@@ -21,8 +21,10 @@ class Medico_model extends CI_Model
         
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
+            return false;
         } else {
             $this->db->trans_commit();
+            return true;
         }
     }
 
@@ -48,9 +50,8 @@ class Medico_model extends CI_Model
 
     public function atualizar($dados)
     {
-        $this->db->where('id', $dados['id']);
-        $this->db->update('medico', $dados);
-        return $this->db->affected_rows();
+        $this->db->where('id', $dados['medico']['id']);
+        return $this->db->update('medico', $dados['medico']);
     }
 
     public function buscarEspecialidades($idMedico)
@@ -88,8 +89,10 @@ class Medico_model extends CI_Model
         }
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
+            return false;
         } else {
             $this->db->trans_commit();
+            return true;
         }
     }
 }
