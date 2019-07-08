@@ -18,7 +18,7 @@ class Medico_model extends CI_Model
         $idMedico = $this->db->insert_id();
         
         $this->salvarEspecialidades($idMedico, $dados['especialidades']);
-
+        
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {
@@ -71,6 +71,25 @@ class Medico_model extends CI_Model
                 'medico_id' => $idMedico,
                 'especialidade_id' => $especialidades[$i]
             ));
+        }
+    }
+
+    public function atualizarEspecialidades($idMedico, $especialidades)
+    {
+        $this->db->trans_strict(FALSE);
+        $this->db->trans_begin();
+        
+        $count = count($especialidades);
+        for ($i = 0; $i < $count; $i ++) {
+            $this->db->insert('especialidade_medico', array(
+                'medico_id' => $idMedico,
+                'especialidade_id' => $especialidades[$i]
+            ));
+        }
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
         }
     }
 }
