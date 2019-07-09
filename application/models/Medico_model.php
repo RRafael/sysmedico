@@ -11,12 +11,10 @@ class Medico_model extends CI_Model
     public function salvar($dados)
     {
         $this->db->trans_strict(FALSE);
-        
         $this->db->trans_begin();
         
         $this->db->insert('medico', $dados['medico']);
         $idMedico = $this->db->insert_id();
-        
         $this->salvarEspecialidades($idMedico, $dados['especialidades']);
         
         if ($this->db->trans_status() === FALSE) {
@@ -50,8 +48,21 @@ class Medico_model extends CI_Model
 
     public function atualizar($dados)
     {
+        $this->db->trans_strict(FALSE);
+        $this->db->trans_begin();
+        
         $this->db->where('id', $dados['medico']['id']);
-        return $this->db->update('medico', $dados['medico']);
+        $this->db->update('medico', $dados['medico']);
+        $this->deletarEspecialidades($dados['medico']['id']);
+        $this->salvarEspecialidades($dados['medico']['id'], $dados['especialidades']);
+        
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
     }
 
     public function buscarEspecialidades($idMedico)
@@ -75,24 +86,9 @@ class Medico_model extends CI_Model
         }
     }
 
-    public function atualizarEspecialidades($idMedico, $especialidades)
+    public function deletarEspecialidades($idMedico)
     {
-        $this->db->trans_strict(FALSE);
-        $this->db->trans_begin();
-        
-        $count = count($especialidades);
-        for ($i = 0; $i < $count; $i ++) {
-            $this->db->insert('especialidade_medico', array(
-                'medico_id' => $idMedico,
-                'especialidade_id' => $especialidades[$i]
-            ));
-        }
-        if ($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            $this->db->trans_commit();
-            return true;
-        }
+        $this->db->where('medico_id', $idMedico);
+        $this->db->delete('especialidade_medico');
     }
 }

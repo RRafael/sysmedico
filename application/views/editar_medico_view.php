@@ -207,7 +207,7 @@ if (isset($especialidade_medico) and ! empty($especialidade_medico)) {
 										</div>
 <?php
     }
-} else {
+} elseif (isset($especialidades) and ! empty($especialidades)) {
     foreach ($especialidades as $row) {
         ?>
     <div>
