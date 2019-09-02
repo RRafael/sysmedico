@@ -8,12 +8,18 @@ class Medico extends CI_Controller
     {
         parent::__construct();
         $this->output->enable_profiler(false);
+
         $this->load->model('medico_model');
         $this->load->model('especialidade_model');
     }
 
     public function index()
     {
+        $this->load->model('medicos');
+        $medicos = Medicos::all();
+        foreach ($medicos as $medico) {
+            $medico->nome;
+        }
         $dados['menu_ativo'] = 'medicos';
         $this->load->view('listar_medicos_view', $dados);
     }
@@ -27,14 +33,14 @@ class Medico extends CI_Controller
     public function cadastrar()
     {
         $dados['menu_ativo'] = null;
-        
+
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('crm', 'crm', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('telefone', 'telefone', 'trim|required');
         $this->form_validation->set_rules('cidade', 'cidade', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[2]');
         $this->form_validation->set_rules('especialidades[]', 'Especialidade', 'trim|required|integer');
-        
+
         if ($this->form_validation->run() == FALSE) {
             $dados['erros'] = validation_errors('<li>', '</li>');
             $dados['lista_especialidades'] = $this->especialidade_model->listar();
@@ -49,9 +55,9 @@ class Medico extends CI_Controller
                 'cidade' => $this->input->post('cidade'),
                 'estado' => $this->input->post('estado')
             );
-            
+
             $dados['especialidades'] = $this->input->post('especialidades');
-            
+
             $controle = $this->medico_model->salvar($dados);
             if ($controle) {
                 $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
@@ -77,7 +83,7 @@ class Medico extends CI_Controller
     public function atualizar()
     {
         $dados['menu_ativo'] = null;
-        
+
         $this->form_validation->set_rules('id', 'id', 'trim|required|integer');
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('crm', 'crm', 'trim|required|min_length[3]');
@@ -85,7 +91,7 @@ class Medico extends CI_Controller
         $this->form_validation->set_rules('cidade', 'cidade', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('estado', 'estado', 'trim|required|min_length[2]');
         $this->form_validation->set_rules('especialidades[]', 'Especialidade', 'trim|integer');
-        
+
         if ($this->form_validation->run() == FALSE) {
             $dados['lista_especialidades'] = $this->especialidade_model->listar();
             $dados['erros'] = validation_errors('<li>', '</li>');
@@ -101,11 +107,11 @@ class Medico extends CI_Controller
                 'cidade' => $this->input->post('cidade'),
                 'estado' => $this->input->post('estado')
             );
-            
+
             $dados['especialidades'] = $this->input->post('especialidades');
-            
+
             $controle = $this->medico_model->atualizar($dados);
-            
+
             if ($controle > 0) {
                 $this->session->set_flashdata('msg', '<div class="alert alert-success fade in">
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
