@@ -1,25 +1,35 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Medico extends CI_Controller
+class Medicos extends CI_Controller
 {
 
     function __construct()
     {
         parent::__construct();
         $this->output->enable_profiler(false);
-
         $this->load->model('medico_model');
         $this->load->model('especialidade_model');
+        $this->load->model('medico');
+        $this->load->model('especialidade');
     }
 
     public function index()
     {
-        $this->load->model('medicos');
-        $medicos = Medicos::all();
-        foreach ($medicos as $medico) {
-            $medico->nome;
+        $medico = Medico::find(8);
+
+        // echo $medico->nome . '<br>';
+
+        $especialidadeIds = [
+            1,
+            3
+        ];
+        $medico->especialidades()->sync($especialidadeIds);
+
+        foreach ($medico->especialidades as $especialidade) {
+            // echo $especialidade->nome . '<br>';
         }
+
         $dados['menu_ativo'] = 'medicos';
         $this->load->view('listar_medicos_view', $dados);
     }
@@ -64,7 +74,7 @@ class Medico extends CI_Controller
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                             Seus dados foram <strong>armazenados</strong> com sucesso no banco de dados.
                                           </div>');
-                redirect('medico', 'refresh');
+                redirect('medicos', 'refresh');
             } else {
                 echo 'error';
             }
@@ -117,7 +127,7 @@ class Medico extends CI_Controller
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                              Seus dados foram <strong>atualizados</strong> com sucesso no banco de dados.
                                           </div>');
-                redirect('medico', 'refresh');
+                redirect('medicos', 'refresh');
             } else {
                 echo 'error';
             }
@@ -133,7 +143,7 @@ class Medico extends CI_Controller
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                              Seus dados foram <strong>removido</strong> com sucesso no banco de dados.
                                           </div>');
-            redirect('medico', 'refresh');
+            redirect('medicos', 'refresh');
         } else {
             echo 'error';
         }

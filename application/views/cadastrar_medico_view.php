@@ -139,7 +139,7 @@ function pesquisacep(valor) {
 				<div class="row" style="margin: 1px;">
 					<br>
 					<form enctype="multipart/form-data" name="frm"
-						action="<?php echo base_url('medico/cadastrar'); ?>" method="post">
+						action="<?php echo base_url('medicos/cadastrar'); ?>" method="post">
 						<div class="form-group">
 							<?php $this->load->view('commons/msg_validacao'); ?>	
 			

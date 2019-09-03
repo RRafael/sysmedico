@@ -141,7 +141,7 @@ function pesquisacep(valor) {
 			<div id="page-inner">
 				<div class="row" style="margin: 1px;">
 					<br>
-					<form action="<?php echo base_url('medico/atualizar'); ?>"
+					<form action="<?php echo base_url('medicos/atualizar'); ?>"
 						method="post" name="frm">
 						<div class="form-group">
 							<?php $this->load->view('commons/msg_validacao'); ?>	

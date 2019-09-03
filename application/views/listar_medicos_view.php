@@ -64,7 +64,7 @@ function fechaAlert(){
 							<br>
 						<?php echo $this->session->flashdata('msg'); ?>
 						 <a class="btn btn-primary btn-lg"
-								href="<?php echo base_url('medico/cadastrar'); ?>"><i
+								href="<?php echo base_url('medicos/cadastrar'); ?>"><i
 								class="fas fa-plus"></i> Cadastrar Medico </a><br>
 						</div>
 					</div>
@@ -99,7 +99,7 @@ function fechaAlert(){
     $(document).ready(function () {
         $('#example').DataTable({
         	"ajax": {
-                 "url": "<?php echo base_url('medico/listar'); ?>",
+                 "url": "<?php echo base_url('medicos/listar'); ?>",
                  "type": "POST"
              },
             "language": {
@@ -118,8 +118,8 @@ function fechaAlert(){
                  "width": "18%",                
                  "render": function ( data, type, row, meta ) {         
                    		return "<div class='row'><div class='col-md-12'>"+						
-                   		" <a class='btn btn-warning btn-xs' href='<?php echo base_url('medico/editar?id=')?>"+ data.id +"'> <i class='far fa-edit'></i>Editar</a>"+
-                   		" <a class='btn btn-danger  btn-xs' onclick='return confirm("+'"Tem certeza que deseja deletar este registro?"'+");'  href='<?php echo base_url('medico/deletar?id=')?>"+ data.id +"'> <i class='far fa-trash-alt'></i>Deletar</a>"+
+                   		" <a class='btn btn-warning btn-xs' href='<?php echo base_url('medicos/editar?id=')?>"+ data.id +"'> <i class='far fa-edit'></i>Editar</a>"+
+                   		" <a class='btn btn-danger  btn-xs' onclick='return confirm("+'"Tem certeza que deseja deletar este registro?"'+");'  href='<?php echo base_url('medicos/deletar?id=')?>"+ data.id +"'> <i class='far fa-trash-alt'></i>Deletar</a>"+
                    		"</div></div>";
                  }
                 }                                   
